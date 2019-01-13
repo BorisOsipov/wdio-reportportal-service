@@ -1,0 +1,26 @@
+{
+  "name": "wdio-reportportal-service",
+  "version": "0.0.20",
+  "description": "A WebdriverIO service for wdio-reportportal-reporter.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/borisosipov/wdio-reportportal-service.git"
+  },
+  "keywords": [
+    "webdriverio",
+    "wdio",
+    "wdio-plugin",
+    "wdio-service",
+    "reportportal"
+  ],
+  "author": "Boris Osipov <osipov.boris@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/borisosipov/wdio-reportportal-service/issues"
+  },
+  "homepage": "https://github.com/borisosipov/wdio-reportportal-service#readme",
+  "contributors": [
+    "Boris Osipov <osipov.boris@gmail.com>"
+  ]
+}
