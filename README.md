@@ -21,10 +21,10 @@ Instructions on how to install `WebdriverIO` can be found [here](http://webdrive
 ## Configuration
 Configure the output directory in your wdio.conf.js file:
 ```js
-const Index = require('wdio-reportportal-service');
+const RpService = require('wdio-reportportal-service');
 
 // Service will wait max 3000 ms till launch finishes on RP server
-const rpService = new Index(3000);
+const rpService = new RpService(3000);
 
 exports.config = {
   // ...
