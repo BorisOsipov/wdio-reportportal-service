@@ -1,7 +1,7 @@
 const ReportPortalClient = require("reportportal-client");
 
 class RpService {
-  async onPrepare(exitCode, config) {
+  async onPrepare(config, capabilities) {
     const reporters = config.reporters.filter(([reporter]) => reporter.reporterName === "reportportal");
     if (reporters.length === 0) {
       //TODO throw error?
