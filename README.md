@@ -1,12 +1,14 @@
-WDIO Report Portal Reporter service
+WDIO Report Portal Reporter service for webdriver v5. 
 ====================
+
+For v4 version see [this branch](https://github.com/BorisOsipov/wdio-reportportal-service/tree/wdio_v4)
 
 ## Installation
 The easiest way is to keep `wdio-reportportal-service` as a devDependency in your `package.json`.
 ```json
 {
   "devDependencies": {
-    "wdio-reportportal-service": "~0.0.1"
+    "wdio-reportportal-service": "5.0.0-alpha"
   }
 }
 ```
@@ -21,14 +23,11 @@ Instructions on how to install `WebdriverIO` can be found [here](http://webdrive
 ## Configuration
 Configure the output directory in your wdio.conf.js file:
 ```js
-const RpService = require('wdio-reportportal-service');
-
-// Service will wait max 3000 ms till launch finishes on RP server
-const rpService = new RpService(3000);
+import RpService from 'wdio-reportportal-service';
 
 exports.config = {
   // ...
-  services: [rpService],
+  services: [[RpService, {}]],
   // ...
 }
 ```

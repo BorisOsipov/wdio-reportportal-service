@@ -1,19 +1,37 @@
-class RpService {
-  constructor(launchFinishTimeout = 5000) {
-    this.launchFinishTimeout = launchFinishTimeout;
+const ReportPortalClient = require("reportportal-client");
+
+export class RpService {
+
+  async onPrepare(exitCode, config) {
+    const reporters = config.reporters.filter(([reporter]) => reporter.reporterName === "reportportal");
+    if (reporters.length === 0) {
+      //TODO throw error?
+      return;
+    }
+    const [, reporterConfig] = reporters[0];
+    const {reportPortalClientConfig} = reporterConfig;
+    this.client = new ReportPortalClient(reportPortalClientConfig);
+
+    const startLaunchObj = {
+      description: reportPortalClientConfig.description,
+      mode: reportPortalClientConfig.mode,
+      tags: reportPortalClientConfig.tags,
+    };
+    const {promise, tempId} = this.client.startLaunch(startLaunchObj);
+
+    this.tempLaunchId = tempId;
+    const {id} = await promise;
+    process.env.RP_LAUNCH_ID = id;
   }
 
   async onComplete(exitCode, config) {
-    const reporters = config.reporters.filter((reporter) => reporter.reporterName === "reportportal");
+    const reporters = config.reporters.filter(([reporter]) => reporter.reporterName === "reportportal");
     if (reporters.length === 0) {
+      //TODO throw error?
       return;
     }
-    const isLaunchFinished = await reporters[0].waitLaunchFinished(this.launchFinishTimeout);
-    if (!isLaunchFinished) {
-      // tslint:disable-next-line no-console
-      console.warn("Launch has not been finished");
-    }
+
+    const {promise: finishLaunchPromise} = this.client.finishLaunch(this.tempLaunchId, {});
+    await finishLaunchPromise;
   }
 }
-
-module.exports = RpService;

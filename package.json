@@ -1,6 +1,6 @@
 {
   "name": "wdio-reportportal-service",
-  "version": "0.0.1",
+  "version": "5.0.0-alpha",
   "description": "A WebdriverIO service for wdio-reportportal-reporter.",
   "main": "index.js",
   "repository": {
@@ -18,6 +18,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/borisosipov/wdio-reportportal-service/issues"
+  },
+  "dependencies": {
+    "reportportal-client": "https://github.com/reportportal/client-javascript.git#b09e49b"
   },
   "homepage": "https://github.com/borisosipov/wdio-reportportal-service#readme",
   "contributors": [
