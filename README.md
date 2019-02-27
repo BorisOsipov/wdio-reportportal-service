@@ -23,7 +23,7 @@ Instructions on how to install `WebdriverIO` can be found [here](http://webdrive
 ## Configuration
 Configure the output directory in your wdio.conf.js file:
 ```js
-import RpService from 'wdio-reportportal-service';
+const RpService = require('wdio-reportportal-service');
 
 exports.config = {
   // ...

@@ -1,7 +1,6 @@
 const ReportPortalClient = require("reportportal-client");
 
-export class RpService {
-
+class RpService {
   async onPrepare(exitCode, config) {
     const reporters = config.reporters.filter(([reporter]) => reporter.reporterName === "reportportal");
     if (reporters.length === 0) {
@@ -35,3 +34,5 @@ export class RpService {
     await finishLaunchPromise;
   }
 }
+
+module.exports = RpService;
