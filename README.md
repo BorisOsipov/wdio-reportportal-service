@@ -1,4 +1,4 @@
-WDIO Report Portal Reporter service for webdriver v5. 
+WDIO Report Portal Reporter service for WebdriverIO v5. 
 ====================
 
 For v4 version see [this branch](https://github.com/BorisOsipov/wdio-reportportal-service/tree/wdio_v4)
@@ -8,7 +8,7 @@ The easiest way is to keep `wdio-reportportal-service` as a devDependency in you
 ```json
 {
   "devDependencies": {
-    "wdio-reportportal-service": "5.0.0-alpha"
+    "wdio-reportportal-service": "5.0.0"
   }
 }
 ```
