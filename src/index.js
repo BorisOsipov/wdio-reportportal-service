@@ -1,4 +1,4 @@
-const ReportPortalClient = require("reportportal-client");
+const ReportPortalClient = require("reportportal-js-client");
 
 class RpService {
   async onPrepare(config, capabilities) {
