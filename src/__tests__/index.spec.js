@@ -82,7 +82,7 @@ describe("#onPrepare", () => {
   });
 });
 
-describe("#onPrepare", () => {
+describe("#onComplete", () => {
   let service;
   let finishLaunchMock;
 
