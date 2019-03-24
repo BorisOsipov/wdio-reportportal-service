@@ -2,36 +2,45 @@ const ReportPortalClient = require("reportportal-js-client");
 
 class RpService {
   async onPrepare(config, capabilities) {
-    const reporters = this.getRpReporters(config);
-    if (reporters.length === 0) {
+    const reportPortalClientConfig = RpService.getRpReporterConfig(config);
+    if (reportPortalClientConfig === null) {
       return;
     }
-
-    const [, reporterConfig] = reporters[0];
-    const {reportPortalClientConfig} = reporterConfig;
-    this.client = new ReportPortalClient(reportPortalClientConfig);
+    const client = this.getReportPortalClient(reportPortalClientConfig);
 
     const {description, mode, tags } = reportPortalClientConfig;
-    const {promise, tempId} = this.client.startLaunch({description, mode, tags});
+    const {promise, tempId} = client.startLaunch({description, mode, tags});
 
     this.tempLaunchId = tempId;
     const {id} = await promise;
     process.env.RP_LAUNCH_ID = id;
+    return promise;
   }
 
   async onComplete(exitCode, config) {
-    const reporters = this.getRpReporters(config);
-    if (reporters.length === 0) {
+    const reportPortalClientConfig = RpService.getRpReporterConfig(config);
+    if (reportPortalClientConfig === null) {
       return;
     }
-
-    const {promise: finishLaunchPromise} = this.client.finishLaunch(this.tempLaunchId, {});
-    await finishLaunchPromise;
+    const client = this.getReportPortalClient(reportPortalClientConfig);
+    const {promise: finishLaunchPromise} = client.finishLaunch(this.tempLaunchId, {});
+    return finishLaunchPromise;
   }
 
-  getRpReporters(config) {
-    return config.reporters.filter(([reporter]) => reporter.reporterName === "reportportal");
+  static getRpReporterConfig(config) {
+    const reporters = config.reporters.filter(([reporter]) => reporter.reporterName === "reportportal");
+    if (reporters.length === 0) {
+      return null;
+    }
+    const [, reporterConfig] = reporters[0];
+    const {reportPortalClientConfig} = reporterConfig;
+    return reportPortalClientConfig
   }
+
+  getReportPortalClient(reportPortalClientConfig) {
+    return this.client ? this.client : new ReportPortalClient(reportPortalClientConfig);
+  }
+
 }
 
 module.exports = RpService;
