@@ -1,5 +1,6 @@
 WDIO Report Portal Reporter service for WebdriverIO v5. 
 ====================
+[![Build Status](https://travis-ci.org/BorisOsipov/wdio-reportportal-service.svg?branch=master)](https://travis-ci.org/BorisOsipov/wdio-reportportal-service)
 
 For v4 version see [this branch](https://github.com/BorisOsipov/wdio-reportportal-service/tree/wdio_v4)
 
