@@ -43,7 +43,7 @@ describe("#onPrepare", () => {
       tempId: START_LAUNCH_TEMP_ID,
     });
     service = new RpService();
-    service.client = {startLaunch: startLaunchMock};
+    RpService.getReportPortalClient = () => {return {startLaunch: startLaunchMock}};
   });
 
   test("should start launch", async () => {
@@ -63,11 +63,6 @@ describe("#onPrepare", () => {
     expect(process.env.RP_LAUNCH_ID).toEqual(START_LAUNCH_REAL_ID)
   });
 
-  test("should save temp id", async () => {
-    await service.onPrepare(getWdioConfig());
-    expect(service.tempLaunchId).toEqual(START_LAUNCH_TEMP_ID)
-  });
-
   test("should skip if empty config", async () => {
     const wdioConfig = getWdioConfig();
     wdioConfig.reporters = [];
@@ -85,22 +80,26 @@ describe("#onPrepare", () => {
 describe("#onComplete", () => {
   let service;
   let finishLaunchMock;
+  let startLaunchMock;
 
   beforeEach(() => {
     finishLaunchMock = jest.fn().mockReturnValue({
       promise: Promise.resolve("ok"),
       tempId: "foo",
     });
+    startLaunchMock = jest.fn().mockReturnValue({
+      promise: Promise.resolve({id: START_LAUNCH_REAL_ID}),
+      tempId: START_LAUNCH_TEMP_ID,
+    });
     service = new RpService();
-    service.client = {finishLaunch: finishLaunchMock};
+    RpService.getReportPortalClient = () => {return {finishLaunch: finishLaunchMock, startLaunch: startLaunchMock}};
   });
 
   test("should finish launch", async () => {
-    service.tempLaunchId = "bar";
     await service.onComplete(0, getWdioConfig());
 
     expect(finishLaunchMock).toBeCalledTimes(1);
-    expect(finishLaunchMock).toBeCalledWith("bar", {});
+    expect(finishLaunchMock).toBeCalledWith(START_LAUNCH_TEMP_ID, {});
   });
 
   test("should skip if empty config", async () => {

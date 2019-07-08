@@ -6,12 +6,11 @@ class RpService {
     if (reportPortalClientConfig === null) {
       return;
     }
-    const client = this.getReportPortalClient(reportPortalClientConfig);
+    const client = RpService.getReportPortalClient(reportPortalClientConfig);
 
     const {description, mode, tags } = reportPortalClientConfig;
-    const {promise, tempId} = client.startLaunch({description, mode, tags});
+    const {promise} = client.startLaunch({description, mode, tags});
 
-    this.tempLaunchId = tempId;
     const {id} = await promise;
     process.env.RP_LAUNCH_ID = id;
     return promise;
@@ -22,8 +21,10 @@ class RpService {
     if (reportPortalClientConfig === null) {
       return;
     }
-    const client = this.getReportPortalClient(reportPortalClientConfig);
-    const {promise: finishLaunchPromise} = client.finishLaunch(this.tempLaunchId, {});
+    const client = RpService.getReportPortalClient(reportPortalClientConfig);
+    const realLaunchId = process.env.RP_LAUNCH_ID;
+    const {tempId} = client.startLaunch({id: realLaunchId});
+    const {promise: finishLaunchPromise} = client.finishLaunch(tempId, {});
     return finishLaunchPromise;
   }
 
@@ -37,8 +38,8 @@ class RpService {
     return reportPortalClientConfig
   }
 
-  getReportPortalClient(reportPortalClientConfig) {
-    return this.client ? this.client : new ReportPortalClient(reportPortalClientConfig);
+  static getReportPortalClient(reportPortalClientConfig) {
+    return new ReportPortalClient(reportPortalClientConfig);
   }
 
 }
