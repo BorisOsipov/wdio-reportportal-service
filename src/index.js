@@ -11,8 +11,8 @@ class RpService {
     const {description, mode, tags } = reportPortalClientConfig;
     const {promise} = client.startLaunch({description, mode, tags});
 
-    const {id} = await promise;
-    process.env.RP_LAUNCH_ID = id;
+    const {uuid, id} = await promise;
+    process.env.RP_LAUNCH_ID = uuid || id;
     return promise;
   }
 
