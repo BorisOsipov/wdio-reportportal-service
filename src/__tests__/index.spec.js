@@ -77,6 +77,28 @@ describe("#onPrepare", () => {
   });
 });
 
+describe("#onPrepare reportportal v5", () => {
+  let service;
+  let startLaunchMock;
+
+  beforeEach(() => {
+    startLaunchMock = jest.fn().mockReturnValue({
+      promise: Promise.resolve({id: 'foo', uuid: START_LAUNCH_REAL_ID}),
+      tempId: START_LAUNCH_TEMP_ID,
+    });
+    service = new RpService();
+    RpService.getReportPortalClient = () => {
+      return {startLaunch: startLaunchMock}
+    };
+  });
+
+  test("should expose RP_LAUNCH_ID", async () => {
+    await service.onPrepare(getWdioConfig());
+    expect(process.env.RP_LAUNCH_ID).toEqual(START_LAUNCH_REAL_ID)
+  });
+
+});
+
 describe("#onComplete", () => {
   let service;
   let finishLaunchMock;
