@@ -1,6 +1,6 @@
 {
   "name": "wdio-reportportal-service",
-  "version": "5.1.0-beta",
+  "version": "5.1.0",
   "description": "A WebdriverIO v5 service for wdio-reportportal-reporter.",
   "main": "src/index.js",
   "repository": {
@@ -23,11 +23,11 @@
     "url": "https://github.com/borisosipov/wdio-reportportal-service/issues"
   },
   "dependencies": {
-    "reportportal-js-client": "^1.1.0"
+    "reportportal-js-client": "^1.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.16",
-    "jest": "^24.8.0"
+    "@types/jest": "^24.0.19",
+    "jest": "^24.9.0"
   },
   "homepage": "https://github.com/borisosipov/wdio-reportportal-service#readme",
   "contributors": [
