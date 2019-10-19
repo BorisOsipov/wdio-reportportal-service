@@ -25,7 +25,17 @@ class RpService {
     const realLaunchId = process.env.RP_LAUNCH_ID;
     const {tempId} = client.startLaunch({id: realLaunchId});
     const {promise: finishLaunchPromise} = client.finishLaunch(tempId, {});
-    return finishLaunchPromise;
+
+    try {
+      await finishLaunchPromise
+    } catch (err) {
+      if(err.message && err.message.includes("Finish launch is not allowed")) {
+        console.warn("Can't finish Report portal launch due errors");
+        console.warn(err.message);
+      } else {
+        console.error(err)
+      }
+    }
   }
 
   static getRpReporterConfig(config) {

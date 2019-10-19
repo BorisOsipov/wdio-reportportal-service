@@ -124,6 +124,36 @@ describe("#onComplete", () => {
     expect(finishLaunchMock).toBeCalledWith(START_LAUNCH_TEMP_ID, {});
   });
 
+  test("should handle finish launch error", async () => {
+    finishLaunchMock = jest.fn().mockReturnValue({
+      promise: Promise.reject("boom"),
+      tempId: "foo",
+    });
+
+    jest.spyOn(console, 'error').mockImplementation((string) => string);
+
+    await service.onComplete(0, getWdioConfig());
+    expect(finishLaunchMock).toBeCalledTimes(1);
+    expect(finishLaunchMock).toBeCalledWith(START_LAUNCH_TEMP_ID, {});
+    expect(console.error).toHaveBeenCalledWith('boom')
+  });
+
+  test("should handle finish launch noy allowed to finish error", async () => {
+    finishLaunchMock = jest.fn().mockReturnValue({
+      promise: Promise.reject(Error("Finish launch is not allowed foo bar")),
+      tempId: "foo",
+    });
+
+    jest.spyOn(console, 'warn').mockImplementation((string) => string);
+
+    await service.onComplete(0, getWdioConfig());
+    expect(finishLaunchMock).toBeCalledTimes(1);
+    expect(finishLaunchMock).toBeCalledWith(START_LAUNCH_TEMP_ID, {});
+    expect(console.warn).toBeCalledTimes(2)
+    expect(console.warn).toHaveBeenCalledWith("Can't finish Report portal launch due errors");
+    expect(console.warn).toHaveBeenCalledWith("Finish launch is not allowed foo bar");
+  });
+
   test("should skip if empty config", async () => {
     const wdioConfig = getWdioConfig();
     wdioConfig.reporters = [];
