@@ -1,14 +1,17 @@
 const ReportPortalClient = require("reportportal-js-client");
 
+let RP_VERSION_5 = 5;
+let RP_VERSION_4 = 4;
+
 class RpService {
-  async onPrepare(config, capabilities) {
+  async onPrepare(config) {
     const reportPortalClientConfig = RpService.getRpReporterConfig(config);
     if (reportPortalClientConfig === null) {
       return;
     }
     const client = RpService.getReportPortalClient(reportPortalClientConfig);
 
-    const {description, mode, tags } = reportPortalClientConfig;
+    const {description, mode, tags} = reportPortalClientConfig;
     const {promise} = client.startLaunch({description, mode, tags});
 
     const {uuid, id} = await promise;
@@ -29,7 +32,7 @@ class RpService {
     try {
       await finishLaunchPromise
     } catch (err) {
-      if(err.message && err.message.includes("Finish launch is not allowed")) {
+      if (err.message && err.message.includes("Finish launch is not allowed")) {
         console.warn("Can't finish Report portal launch due errors");
         console.warn(err.message);
       } else {
@@ -52,6 +55,41 @@ class RpService {
     return new ReportPortalClient(reportPortalClientConfig);
   }
 
+  static async getLaunchUrl(config) {
+    const reportPortalClientConfig = RpService.getRpReporterConfig(config);
+    if (reportPortalClientConfig === null) {
+      return;
+    }
+
+    const client = RpService.getReportPortalClient(reportPortalClientConfig);
+    const realLaunchId = process.env.RP_LAUNCH_ID;
+    const rpVersion = await RpService.getRpVersion(client);
+
+    const {project, endpoint} = reportPortalClientConfig;
+    const {hostname} = new URL(endpoint);
+
+    if (rpVersion === RP_VERSION_4) {
+      return `https://${hostname}/ui/#${project}/launches/all/${realLaunchId}`;
+    } else {
+      try {
+        const {id} = await client.getLaunchByUid(realLaunchId);
+        return `https://${hostname}/ui/#${project}/launches/all/${id}`
+      } catch (e) {
+        console.error("Can't generate report portal launch url");
+        console.error(e)
+      }
+    }
+  }
+
+  static async getRpVersion(client) {
+    try {
+      // plugins api available only in report portal 5+ versions
+      await client.getPlugins();
+      return RP_VERSION_5
+    } catch (e) {
+      return RP_VERSION_4
+    }
+  }
 }
 
 module.exports = RpService;

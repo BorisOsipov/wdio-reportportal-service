@@ -173,3 +173,15 @@ describe("#getRpReporterConfig", () => {
     expect(RpService.getRpReporterConfig(wdioConfig)).toBeNull();
   });
 });
+
+describe("#getRpVersion", () => {
+  test("should return v5 version", async () => {
+    const getPlugins = jest.fn().mockReturnValue(Promise.resolve({foo: "bar"}));
+    expect(await RpService.getRpVersion({getPlugins})).toEqual(5)
+  });
+
+  test("should return v4 version", async () => {
+    const getPlugins = jest.fn().mockReturnValue(Promise.reject({foo: "bar"}));
+    expect(await RpService.getRpVersion({getPlugins})).toEqual(4)
+  });
+});
