@@ -55,25 +55,50 @@ class RpService {
     return new ReportPortalClient(reportPortalClientConfig);
   }
 
+  /**
+   * Generate url to Report Portal UI for current launch
+   * @param {object} config - wdio config
+   * @return {Promise<string|undefined>} - returns url to launch or undefined if error
+   */
   static async getLaunchUrl(config) {
-    const reportPortalClientConfig = RpService.getRpReporterConfig(config);
-    if (reportPortalClientConfig === null) {
+    const rpConfig = RpService.getRpReporterConfig(config);
+    if (rpConfig === null) {
       return;
     }
 
-    const client = RpService.getReportPortalClient(reportPortalClientConfig);
-    const realLaunchId = process.env.RP_LAUNCH_ID;
+    const client = RpService.getReportPortalClient(rpConfig);
     const rpVersion = await RpService.getRpVersion(client);
 
-    const {project, endpoint} = reportPortalClientConfig;
-    const {hostname} = new URL(endpoint);
+    const {endpoint} = rpConfig;
+    const {hostname, protocol, port} = new URL(endpoint);
 
+    let portString = "";
+    if (port) {
+      portString = `:${port}`
+    }
+
+    return await this.getLaunchUrlByParams(rpVersion, protocol, hostname, portString, rpConfig);
+  }
+
+  /**
+   * Generate url to Report Portal UI for current launch
+   * @param {number} rpVersion - Report Portal version. Can be 4 or 5
+   * @param {string} protocol - server url protocol (http|https)
+   * @param {string} hostname - report portal host e.g. "rp.example.com"
+   * @param {string} port - server port or empty if used default 80|433. Format example ":80"
+   * @param {object} config - wdio config
+   * @return {Promise<string>}  - returns url to launch or undefined if error
+   */
+  static async getLaunchUrlByParams(rpVersion, protocol, hostname, port, config) {
+    const realLaunchId = process.env.RP_LAUNCH_ID;
+    const {project} = config;
+    const client = RpService.getReportPortalClient(config);
     if (rpVersion === RP_VERSION_4) {
-      return `https://${hostname}/ui/#${project}/launches/all/${realLaunchId}`;
+      return `${protocol}://${hostname}${port}/ui/#${project}/launches/all/${realLaunchId}`;
     } else {
       try {
         const {id} = await client.getLaunchByUid(realLaunchId);
-        return `https://${hostname}/ui/#${project}/launches/all/${id}`
+        return `${protocol}://${hostname}${port}/ui/#${project}/launches/all/${id}`
       } catch (e) {
         console.error("Can't generate report portal launch url");
         console.error(e)
