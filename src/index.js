@@ -103,11 +103,11 @@ class RpService {
     const {project} = config;
     const client = RpService.getReportPortalClient(config);
     if (rpVersion === RP_VERSION_4) {
-      return `${protocol}://${hostname}${port}/ui/#${project}/launches/all/${realLaunchId}`;
+      return `${protocol}//${hostname}${port}/ui/#${project}/launches/all/${realLaunchId}`;
     } else {
       try {
         const {id} = await client.getLaunchByUid(realLaunchId);
-        return `${protocol}://${hostname}${port}/ui/#${project}/launches/all/${id}`
+        return `${protocol}//${hostname}${port}/ui/#${project}/launches/all/${id}`
       } catch (e) {
         console.error("Can't generate report portal launch url");
         console.error(e)
