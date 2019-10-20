@@ -26,6 +26,9 @@ class RpService {
   }
 
   async onComplete(exitCode, config) {
+    if (process.env.REPORT_PORTAL_LAUNCH_ID) {
+      return
+    }
     const reportPortalClientConfig = RpService.getRpReporterConfig(config);
     if (reportPortalClientConfig === null) {
       return;
