@@ -5,6 +5,12 @@ let RP_VERSION_4 = 4;
 
 class RpService {
   async onPrepare(config) {
+    const launchId = process.env.REPORT_PORTAL_LAUNCH_ID;
+    if (launchId) {
+      process.env.RP_LAUNCH_ID = launchId;
+      return
+    }
+
     const reportPortalClientConfig = RpService.getRpReporterConfig(config);
     if (reportPortalClientConfig === null) {
       return;
@@ -20,6 +26,9 @@ class RpService {
   }
 
   async onComplete(exitCode, config) {
+    if (process.env.REPORT_PORTAL_LAUNCH_ID) {
+      return
+    }
     const reportPortalClientConfig = RpService.getRpReporterConfig(config);
     if (reportPortalClientConfig === null) {
       return;
