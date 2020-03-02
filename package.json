@@ -1,6 +1,6 @@
 {
   "name": "wdio-reportportal-service",
-  "version": "5.2.4",
+  "version": "5.2.5",
   "description": "A WebdriverIO v5 service for wdio-reportportal-reporter.",
   "main": "src/index.js",
   "repository": {
