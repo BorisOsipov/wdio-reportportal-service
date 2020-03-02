@@ -9,7 +9,7 @@ The easiest way is to keep `wdio-reportportal-service` as a devDependency in you
 ```json
 {
   "devDependencies": {
-    "wdio-reportportal-service": "5.2.4"
+    "wdio-reportportal-service": "5.2.5"
   }
 }
 ```
