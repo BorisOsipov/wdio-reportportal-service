@@ -7,7 +7,7 @@ const getRpConfig = () => {
       launch: 'launch name',
       mode: 'DEFAULT',
       description: 'launch desc',
-      tags: ["foo"],
+      attributes: [{key: "tag", value: "foo"}],
       project: "project-name",
       token: "da135aa3-2c6f-4d7f-a25e-d74cbbc64af9",
       debug: false,
@@ -43,7 +43,9 @@ describe("#onPrepare", () => {
       tempId: START_LAUNCH_TEMP_ID,
     });
     service = new RpService();
-    RpService.getReportPortalClient = () => {return {startLaunch: startLaunchMock}};
+    RpService.getReportPortalClient = () => {
+      return {startLaunch: startLaunchMock}
+    };
   });
 
   test("should start launch", async () => {
@@ -54,7 +56,7 @@ describe("#onPrepare", () => {
       {
         description: "launch desc",
         mode: "DEFAULT",
-        tags: ["foo"],
+        attributes: [{key: "tag", value: "foo"}],
       })
   });
 
@@ -83,7 +85,7 @@ describe("#onPrepare reportportal v5", () => {
 
   beforeEach(() => {
     startLaunchMock = jest.fn().mockReturnValue({
-      promise: Promise.resolve({id: 'foo', uuid: START_LAUNCH_REAL_ID}),
+      promise: Promise.resolve({id: START_LAUNCH_REAL_ID}),
       tempId: START_LAUNCH_TEMP_ID,
     });
     service = new RpService();
@@ -114,7 +116,9 @@ describe("#onComplete", () => {
       tempId: START_LAUNCH_TEMP_ID,
     });
     service = new RpService();
-    RpService.getReportPortalClient = () => {return {finishLaunch: finishLaunchMock, startLaunch: startLaunchMock}};
+    RpService.getReportPortalClient = () => {
+      return {finishLaunch: finishLaunchMock, startLaunch: startLaunchMock}
+    };
   });
 
   test("should finish launch", async () => {
@@ -171,17 +175,5 @@ describe("#getRpReporterConfig", () => {
     const wdioConfig = getWdioConfig();
     wdioConfig.reporters = ['dot'];
     expect(RpService.getRpReporterConfig(wdioConfig)).toBeNull();
-  });
-});
-
-describe("#getRpVersion", () => {
-  test("should return v5 version", async () => {
-    const getPlugins = jest.fn().mockReturnValue(Promise.resolve({foo: "bar"}));
-    expect(await RpService.getRpVersion({getPlugins})).toEqual(5)
-  });
-
-  test("should return v4 version", async () => {
-    const getPlugins = jest.fn().mockReturnValue(Promise.reject({foo: "bar"}));
-    expect(await RpService.getRpVersion({getPlugins})).toEqual(4)
   });
 });
