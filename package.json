@@ -26,8 +26,8 @@
     "reportportal-js-client": "^2.1.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.10",
-    "jest": "^26.4.2"
+    "@types/jest": "^26.0.14",
+    "jest": "^26.5.3"
   },
   "homepage": "https://github.com/borisosipov/wdio-reportportal-service#readme",
   "contributors": [
