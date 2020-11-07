@@ -19,5 +19,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: npm install
-      - name: Lint / Dependencies / Unit / Smoke Tests
+      - name: Lint / Dependencies / Tests
         run: npm run test
