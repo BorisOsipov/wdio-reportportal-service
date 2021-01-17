@@ -23,11 +23,11 @@
     "url": "https://github.com/borisosipov/wdio-reportportal-service/issues"
   },
   "dependencies": {
-    "reportportal-js-client": "^2.1.0"
+    "reportportal-js-client": "^2.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.14",
-    "jest": "^26.5.3"
+    "@types/jest": "^26.0.20",
+    "jest": "^26.6.3"
   },
   "homepage": "https://github.com/borisosipov/wdio-reportportal-service#readme",
   "contributors": [
