@@ -1,6 +1,14 @@
 const ReportPortalClient = require("reportportal-js-client");
+const fs = require('fs');
 
 class RpService {
+
+  options;
+
+  constructor(options) {
+    this.options = options;
+  }
+
   async onPrepare(config) {
     const launchId = process.env.REPORT_PORTAL_LAUNCH_ID;
     if (launchId) {
@@ -19,6 +27,9 @@ class RpService {
 
     const {id} = await promise;
     process.env.RP_LAUNCH_ID = id;
+    if (this.options.writeLaunchIdToFile) {
+      fs.writeFileSync('./RP_LAUNCH_ID', id);
+    }
     return promise;
   }
 
