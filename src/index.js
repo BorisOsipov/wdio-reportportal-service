@@ -3,8 +3,8 @@ const fs = require('fs');
 
 class RpService {
 
-  options;
-
+  options
+  
   constructor(options) {
     this.options = options;
   }
