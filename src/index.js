@@ -25,12 +25,8 @@ class RpService {
 
     const {id} = await promise;
     process.env.RP_LAUNCH_ID = id;
-    if (this.options && this.options.writeLaunchIdToFile) {
-      if (this.options.writeLaunchIdToFile.toString() !== "true") {
-        fs.writeFileSync(this.options.writeLaunchIdToFile, id);
-      } else {
-        fs.writeFileSync('./RP_LAUNCH_ID', id);
-      }
+    if (this.options && this.options.launchIdFilePath) {
+        fs.writeFileSync(this.options.launchIdFilePath, id);
     }
     return promise;
   }
