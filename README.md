@@ -1,4 +1,4 @@
-WDIO Report Portal Reporter service for WebdriverIO v5 and v6.
+WDIO Report Portal Reporter service for WebdriverIO v6 and v7.
 ====================
 
 For WebdriverIO v4 version see [this branch](https://github.com/BorisOsipov/wdio-reportportal-service/tree/wdio_v4)
