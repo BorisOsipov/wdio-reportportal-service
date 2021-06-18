@@ -1,19 +1,16 @@
-WDIO Report Portal Reporter service for WebdriverIO v6 and v7.
+WDIO Report Portal Reporter service for WebdriverIO.
 ====================
-
-For WebdriverIO v4 version see [this branch](https://github.com/BorisOsipov/wdio-reportportal-service/tree/wdio_v4)
-For Report Portal v4 support use `5.X.X` versions.
 
 ## Installation
 The easiest way is to keep `wdio-reportportal-service` as a devDependency in your `package.json`.
 ```json
 {
   "devDependencies": {
-    "wdio-reportportal-service": "6.4.0"
+    "wdio-reportportal-service": "7.0.0"
   }
 }
 ```
-You can simple do it by:
+You can do it by:
 
 ```bash
 npm install wdio-reportportal-reporter --save-dev
