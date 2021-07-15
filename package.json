@@ -23,7 +23,7 @@
     "url": "https://github.com/borisosipov/wdio-reportportal-service/issues"
   },
   "dependencies": {
-    "reportportal-js-client": "^2.1.2"
+    "reportportal-js-client": "/home/bo/git/reportportal-js-client"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
